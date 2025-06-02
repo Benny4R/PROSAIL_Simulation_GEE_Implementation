@@ -98,11 +98,11 @@ var trainingFeatures = trainingSimulationsFc.map(function(feature) {
   // Erstellt ein neues Dictionary (Objekt) mit den standardisierten Merkmalsnamen und den Werten aus dem aktuellen Feature.
   var properties = {
     'SZA': ee.Number(feature.get(szaPropertyInSimulations)), // Wert für SZA aus der CSV holen
-    'blue': ee.Number(feature.get(reflectanceColumnsInSimulations.blue)),   // Wert für Blau usw.
+    'blue': ee.Number(feature.get(reflectanceColumnsInSimulations.blue)),   
     'green': ee.Number(feature.get(reflectanceColumnsInSimulations.green)),
     'red': ee.Number(feature.get(reflectanceColumnsInSimulations.red)),
     'NIR': ee.Number(feature.get(reflectanceColumnsInSimulations.NIR)),
-    'LAI': ee.Number(feature.get(laiPropertyInSimulations)) // Zielvariable (Label)
+    'LAI': ee.Number(feature.get(laiPropertyInSimulations)) 
   };
   return ee.Feature(null, properties); // Erzeugt ein neues Feature (ohne Geometrie) mit den standardisierten Properties.
 });
@@ -202,5 +202,4 @@ monthList.evaluate(function(monthsClientList) {
   print('LAI SKRIPT - Alle Export-Tasks für die monatliche Verarbeitung wurden (versucht zu) starten.');
 });
 // --- ENDE Monatliche Verarbeitung ---
-
 print('LAI SKRIPT - Skriptdefinition vollständig beendet.');
