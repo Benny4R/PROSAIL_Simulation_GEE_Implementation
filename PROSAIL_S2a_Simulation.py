@@ -37,7 +37,6 @@ def resample_reflectance(prosail_wl, prosail_rho, s2_bands):
     return np.array(s2_reflectance)
 
 print(f"Starte {num_simulations} PROSAIL-Simulationen")
-# Diese for-Schleife ist das Herzstück, das die eigentliche Arbeit macht.
 for i in range(num_simulations):
     # Parameter für diesen einen Durchlauf zufällig festlegen Parameter Angaben: vgl. "https://doi.org/10.1080/17538947.2025.2496403"
     n = np.random.uniform(1, 3)                       # N: Blattstruktur-Parameter
