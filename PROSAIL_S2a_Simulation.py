@@ -40,19 +40,19 @@ print(f"Starte {num_simulations} PROSAIL-Simulationen")
 # Diese for-Schleife ist das Herzstück, das die eigentliche Arbeit macht.
 for i in range(num_simulations):
     # Parameter für diesen einen Durchlauf zufällig festlegen Parameter Angaben: vgl. "https://doi.org/10.1080/17538947.2025.2496403"
-    n = np.random.uniform(1, 3)             # N: Blattstruktur-Parameter
+    n = np.random.uniform(1, 3)                       # N: Blattstruktur-Parameter
     cm = (10 * n - 9) / (1000 * n + 250)              # Cm: Trockenmasse pro Fläche (g/cm2)
-    cab = np.random.uniform(10, 80)         # cab: Chlorophyll a+b Gehalt (ug/cm2)
-    car = np.random.uniform(0, 30)          # car: Karotinoid-Gehalt (ug/cm2)
-    cbrown = np.random.uniform(0, 1)        # cbrown: Gehalt an braunen Pigmenten
+    cab = np.random.uniform(10, 80)                   # cab: Chlorophyll a+b Gehalt (ug/cm2)
+    car = np.random.uniform(0, 30)                    # car: Karotinoid-Gehalt (ug/cm2)
+    cbrown = np.random.uniform(0, 1)                  # cbrown: Gehalt an braunen Pigmenten
     cw = np.random.uniform(0.02)                      # Cw: Äquivalente Wasserdicke (cm)
-    psoil = np.random.uniform(0, 1)         # psoil: Trocken/Nass-Bodenfaktor
+    psoil = np.random.uniform(0, 1)                   # psoil: Trocken/Nass-Bodenfaktor
     rsoil = 1                                         # rsoil: Bodenhelligkeitsfaktor
-    lai = np.random.uniform(0.1, 8.0)       # LAI: Blattflächenindex
-    lidfa = np.random.uniform(0, 80)        # lidfa: Durchschnittlicher Blattneigungswinkel (Grad)
+    lai = np.random.uniform(0.1, 8.0)                 # LAI: Blattflächenindex
+    lidfa = np.random.uniform(0, 80)                  # lidfa: Durchschnittlicher Blattneigungswinkel (Grad)
     hspot = np.random.uniform(0.01)                   # hspot: Hotspot-Parameter
-    # tts_min = np.random.uniform(27.66)
-    # tts_max = np.random.uniform(74.38)
+    # tts_min = 27.66
+    # tts_max = 74.38
     tts = np.random.uniform(27.66, 74.38)
     tto = 0.0                                         # tto: Beobachter-Zenitwinkel (Grad)
     psi = 0.0                                         # psi: Relativer Azimutwinkel (Grad)
