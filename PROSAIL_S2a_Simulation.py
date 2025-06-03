@@ -1,12 +1,11 @@
-# Notwendige Bibliotheken werden immer zuerst importiert. vgl. "https://pypi.org/project/prosail/"
+# Notwendige Bibliotheken vgl. "https://pypi.org/project/prosail/"
 import pandas as pd
 import numpy as np
 from prosail import run_prosail
 
-
 # Der Dateipfad, wo die finale CSV-Datei gespeichert werden soll.
 output_filename = r'C:\Users\benny\Desktop\BR41\Google Earth Engine\Zeitreihe\LAI\PROSAIL_S2A_TRAINING\PROSAIL_Simulationen_S2_Training.csv'
-# Anzahl der Durchläufe. Jeder Durchlauf erzeugt eine Zeile in unserer finalen Tabelle.
+# Anzahl der Durchläufe. Jeder Durchlauf erzeugt eine Zeile in unserer finalen csv-Tabelle.
 num_simulations = 90000
 
 # Das Wellenlängen-Array wird hier erstellt, da es für jede Simulation gleich ist.
@@ -31,7 +30,10 @@ s2a_band_column_names = [
 def resample_reflectance(prosail_wl, prosail_rho, s2_bands):
     s2_reflectance = []
     for center_wl, fwhm in s2_bands:
+        # Erzeuge die spektrale Antwortfunktion (SRF) des Bandes (Gauß-Annahme).
+        # 2.355 ist der Faktor zur Umrechnung von FWHM in Standardabweichung für eine Gaußkurve.
         srf = np.exp(-0.5 * ((prosail_wl - center_wl) / (fwhm / 2.355)) ** 2)
+        # Berechne die gewichtete mittlere Reflektanz für das aktuelle Band.
         band_reflectance = np.sum(prosail_rho * srf) / np.sum(srf)
         s2_reflectance.append(band_reflectance)
     return np.array(s2_reflectance)
@@ -39,22 +41,22 @@ def resample_reflectance(prosail_wl, prosail_rho, s2_bands):
 print(f"Starte {num_simulations} PROSAIL-Simulationen")
 for i in range(num_simulations):
     # Parameter für diesen einen Durchlauf zufällig festlegen Parameter Angaben: vgl. "https://doi.org/10.1080/17538947.2025.2496403"
-    n = np.random.uniform(1, 3)                       # N: Blattstruktur-Parameter
-    cm = (10 * n - 9) / (1000 * n + 250)              # Cm: Trockenmasse pro Fläche (g/cm2)
-    cab = np.random.uniform(10, 80)                   # cab: Chlorophyll a+b Gehalt (ug/cm2)
-    car = np.random.uniform(0, 30)                    # car: Karotinoid-Gehalt (ug/cm2)
-    cbrown = np.random.uniform(0, 1)                  # cbrown: Gehalt an braunen Pigmenten
-    cw = np.random.uniform(0.02)                      # Cw: Äquivalente Wasserdicke (cm)
-    psoil = np.random.uniform(0, 1)                   # psoil: Trocken/Nass-Bodenfaktor
-    rsoil = 1                                         # rsoil: Bodenhelligkeitsfaktor
-    lai = np.random.uniform(0.1, 8.0)                 # LAI: Blattflächenindex
-    lidfa = np.random.uniform(0, 80)                  # lidfa: Durchschnittlicher Blattneigungswinkel (Grad)
-    hspot = np.random.uniform(0.01)                   # hspot: Hotspot-Parameter
-    # tts_min = 27.66
-    # tts_max = 74.38
+    n = np.random.uniform(1, 3)                         # N: Blattstruktur-Parameter
+    cm = (10 * n - 9) / (1000 * n + 250)                # Cm: Trockenmasse pro Fläche (g/cm2)
+    cab = np.random.uniform(10, 80)                     # cab: Chlorophyll a+b Gehalt (ug/cm2)
+    car = np.random.uniform(0, 30)                      # car: Karotinoid-Gehalt (ug/cm2)
+    cbrown = np.random.uniform(0, 1)                    # cbrown: Gehalt an braunen Pigmenten
+    cw = np.random.uniform(0.02)                        # Cw: Äquivalente Wasserdicke (cm)
+    psoil = np.random.uniform(0, 1)                     # psoil: Trocken/Nass-Bodenfaktor
+    rsoil = 1                                           # rsoil: Bodenhelligkeitsfaktor
+    lai = np.random.uniform(0.1, 8.0)                   # LAI: Blattflächenindex
+    lidfa = np.random.uniform(0, 80)                    # lidfa: Durchschnittlicher Blattneigungswinkel (Grad)
+    hspot = np.random.uniform(0.01)                     # hspot: Hotspot-Parameter
+    # tts_min = 27.66 minimaler Sonnenzenitwinkel (Grad)
+    # tts_max = 74.38 maximaler Sonnenzenitwinkel (Grad)
     tts = np.random.uniform(27.66, 74.38)
-    tto = 0.0                                         # tto: Beobachter-Zenitwinkel (Grad)
-    psi = 0.0                                         # psi: Relativer Azimutwinkel (Grad)
+    tto = 0.0                                           # tto: Beobachter-Zenitwinkel des Statteliten (Grad)
+    psi = 0.0                                           # psi: Relativer Azimutwinkel (Grad)
 
     # PROSAIL-Modell ausführen
     reflectance_raw = run_prosail(n, cab, car, cbrown, cw, cm, lai, lidfa, hspot, tts, tto, psi, psoil=psoil,
